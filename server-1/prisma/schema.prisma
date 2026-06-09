@@ -28,6 +28,7 @@ model User {
   role          Role     @relation(fields: [roleId], references: [id])
 
   createdCourses Course[]
+  enrollments Enrollment[]
 }
 
 
@@ -43,4 +44,19 @@ model Course {
 
   creatorId   String
   creator     User @relation(fields: [creatorId], references: [id])
+  enrollments Enrollment[]
+}
+
+model Enrollment {
+  id         String   @id @default(uuid())
+
+  studentId  String
+  courseId   String
+
+  createdAt  DateTime @default(now())
+
+  student    User   @relation(fields: [studentId], references: [id])
+  course     Course @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId])
 }
