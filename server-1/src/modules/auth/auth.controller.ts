@@ -58,3 +58,20 @@ export const login = async (
     });
   }
 };
+
+export const me = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    res.status(200).json({
+      success: true,
+      data: (req as any).user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to get user",
+    });
+  }
+};
