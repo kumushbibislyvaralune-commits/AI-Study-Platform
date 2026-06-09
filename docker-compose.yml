@@ -1,0 +1,37 @@
+services:
+  postgres-server1:
+    image: postgres:17
+    container_name: postgres-server1
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: study_platform_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_server1_data:/var/lib/postgresql/data
+
+  postgres-server2:
+    image: postgres:17
+    container_name: postgres-server2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: ai_service_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_server2_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:8
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_server1_data:
+  postgres_server2_data:
