@@ -30,6 +30,7 @@ model User {
   createdCourses Course[]
   enrollments Enrollment[]
   notifications Notification[]
+  messages Message[]
 }
 
 
@@ -88,4 +89,26 @@ model Notification {
 
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+
+  createdAt DateTime  @default(now())
+
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(uuid())
+
+  content   String
+
+  createdAt DateTime @default(now())
+
+  chatId    String
+  senderId  String
+
+  chat      Chat @relation(fields: [chatId], references: [id])
+  sender    User @relation(fields: [senderId], references: [id])
 }

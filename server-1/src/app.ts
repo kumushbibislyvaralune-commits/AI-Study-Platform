@@ -6,7 +6,7 @@ import courseRoutes from "./modules/course/course.routes";
 import enrollmentRoutes from "./modules/enrollment/enrollment.routes";
 import lessonRoutes from "./modules/lesson/lesson.routes";
 import notificationRoutes from "./modules/notification/notification.routes";
-
+import chatRoutes from "./modules/chat/chat.routes";
 
 const app = express();
 
@@ -19,6 +19,7 @@ app.use("/api/courses", courseRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api", lessonRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/chats", chatRoutes);
 
 
 app.get("/", (req, res) => {
