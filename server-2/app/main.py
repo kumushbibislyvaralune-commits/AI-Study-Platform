@@ -7,6 +7,10 @@ from app.api.extract import router as extract_router
 from app.models.chunk import Chunk
 from app.api.search import router as search_router
 from app.api.ask import router as ask_router
+from app.api.summary import router as summary_router
+from app.api.quiz import router as quiz_router
+from app.api.flashcards import router as flashcards_router
+from app.api.tutor import router as tutor_router
 
 app = FastAPI(
     title="AI Study Platform - AI Service",
@@ -18,9 +22,10 @@ app.include_router(upload_router, prefix="/api")
 app.include_router(extract_router, prefix="/api")
 app.include_router(search_router, prefix="/api")
 app.include_router(ask_router, prefix="/api")
-
-
-
+app.include_router(summary_router, prefix="/api")
+app.include_router(quiz_router, prefix="/api")
+app.include_router(flashcards_router, prefix="/api")
+app.include_router(tutor_router, prefix="/api")
 
 @app.get("/")
 def root():
