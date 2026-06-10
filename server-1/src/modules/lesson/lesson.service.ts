@@ -34,9 +34,51 @@ export const getCourseLessons = async (
 export const getLessonById = async (
   lessonId: string
 ) => {
-  return prisma.lesson.findUnique({
+  const lesson = await prisma.lesson.findUnique({
     where: {
       id: lessonId,
     },
   });
+
+  if (!lesson) {
+    throw new Error("Lesson not found");
+  }
+
+  return lesson;
+};
+
+export const updateLesson = async (
+  lessonId: string,
+  title: string,
+  content?: string,
+  videoUrl?: string,
+  pdfUrl?: string,
+  order?: number
+) => {
+  return prisma.lesson.update({
+    where: {
+      id: lessonId,
+    },
+    data: {
+      title,
+      content,
+      videoUrl,
+      pdfUrl,
+      order,
+    },
+  });
+};
+
+export const deleteLesson = async (
+  lessonId: string
+) => {
+  await prisma.lesson.delete({
+    where: {
+      id: lessonId,
+    },
+  });
+
+  return {
+    message: "Lesson deleted successfully",
+  };
 };

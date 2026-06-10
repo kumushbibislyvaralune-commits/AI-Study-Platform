@@ -52,3 +52,35 @@ export const getCourseById = async (
 
   return course;
 };
+
+export const updateCourse = async (
+  courseId: string,
+  title: string,
+  description: string,
+  thumbnail?: string
+) => {
+  return prisma.course.update({
+    where: {
+      id: courseId,
+    },
+    data: {
+      title,
+      description,
+      thumbnail,
+    },
+  });
+};
+
+export const deleteCourse = async (
+  courseId: string
+) => {
+  await prisma.course.delete({
+    where: {
+      id: courseId,
+    },
+  });
+
+  return {
+    message: "Course deleted successfully",
+  };
+};

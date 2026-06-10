@@ -3,6 +3,8 @@ import {
   createLesson,
   getCourseLessons,
   getLessonById,
+  updateLesson,
+  deleteLesson,
 } from "./lesson.service";
 
 export const create = async (
@@ -61,13 +63,87 @@ export const getById = async (
   req: Request,
   res: Response
 ) => {
-  const lessonId = req.params.id as string;
+  try {
+    const lessonId = req.params.id as string;
 
-  const lesson =
-    await getLessonById(lessonId);
+    const lesson =
+      await getLessonById(lessonId);
 
-  res.status(200).json({
-    success: true,
-    data: lesson,
-  });
+    res.status(200).json({
+      success: true,
+      data: lesson,
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Lesson not found",
+    });
+  }
+};
+
+export const update = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const lessonId = req.params.id as string;
+
+    const {
+      title,
+      content,
+      videoUrl,
+      pdfUrl,
+      order,
+    } = req.body;
+
+    const lesson = await updateLesson(
+      lessonId,
+      title,
+      content,
+      videoUrl,
+      pdfUrl,
+      order
+    );
+
+    res.status(200).json({
+      success: true,
+      data: lesson,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Lesson update failed",
+    });
+  }
+};
+
+export const remove = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const lessonId = req.params.id as string;
+
+    const result =
+      await deleteLesson(lessonId);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Lesson delete failed",
+    });
+  }
 };

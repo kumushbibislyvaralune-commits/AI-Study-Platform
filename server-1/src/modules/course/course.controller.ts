@@ -3,6 +3,8 @@ import {
   createCourse,
   getCourses,
   getCourseById,
+  updateCourse,
+  deleteCourse,
 } from "./course.service";
 
 export const create = async (
@@ -66,6 +68,60 @@ export const findOne = async (
         error instanceof Error
           ? error.message
           : "Course not found",
+    });
+  }
+};
+
+export const update = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const courseId = req.params.id as string;
+    const { title, description, thumbnail } = req.body;
+
+    const course = await updateCourse(
+      courseId,
+      title,
+      description,
+      thumbnail
+    );
+
+    res.status(200).json({
+      success: true,
+      data: course,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Course update failed",
+    });
+  }
+};
+
+export const remove = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const courseId = req.params.id as string;
+
+    const result = await deleteCourse(courseId);
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Course delete failed",
     });
   }
 };
