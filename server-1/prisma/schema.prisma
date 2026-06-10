@@ -29,6 +29,7 @@ model User {
 
   createdCourses Course[]
   enrollments Enrollment[]
+  notifications Notification[]
 }
 
 
@@ -75,4 +76,16 @@ model Enrollment {
   course     Course @relation(fields: [courseId], references: [id])
 
   @@unique([studentId, courseId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
 }
