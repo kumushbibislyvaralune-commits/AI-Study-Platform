@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
 from app.services.vector_service import search_chunks
+from app.services.openai_chat_service import generate_ai_response
 
 def generate_answer(
     db: Session,
@@ -16,14 +17,14 @@ def generate_answer(
         [item["content"] for item in results]
     )
 
-    answer = (
-        "Based on the uploaded document, "
-        "the most relevant information is:\n\n"
-        + context[:1000]
+    ai_result = generate_ai_response(
+        question,
+        context
     )
 
     return {
         "question": question,
-        "answer": answer,
+        "answer": ai_result["answer"],
+        "provider": ai_result["provider"],
         "sources": results
     }
