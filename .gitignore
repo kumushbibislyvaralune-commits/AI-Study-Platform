@@ -3,3 +3,13 @@ node_modules/
 dist/
 uploads/
 *.log
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+.env
+
+uploads/
